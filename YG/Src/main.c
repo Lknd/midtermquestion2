@@ -1,0 +1,50 @@
+#define rccahb1enR *(( unsigned volatile int *) 0x40023830)
+#define gpiodmask 1<<3
+#define gpiodModr *((unsigned volatile int *) 0x40020c00)
+#define gpiodP14mask 1<<28
+#define gpiodP13mask 1<<26
+#define gpiodOdr *((unsigned volatile int *) 0x40020c14)
+#define gpiodP14onmask 1<<14
+#define gpiodP14ofmask 0<<14
+#define gpiodP13onmask 1<<13
+#define gpiodP13ofmask ~(1<<13)
+
+
+void adddelay(){
+     int addelay= 0x0FFFFFFF;
+     while(addelay--){
+    	 }
+     }
+
+void yigitonat(){
+	//KIRMIZI LED'IN YANIP SONMESI
+	gpiodOdr=gpiodP14onmask;
+	adddelay(2000);
+	gpiodOdr&=gpiodP14ofmask;
+	adddelay(2000);
+}
+void gokdemir(){
+	//TURUNCU LED'IN YANIP SONMESI
+	gpiodOdr |=gpiodP13onmask;
+	adddelay(2000);
+	gpiodOdr&=gpiodP13ofmask;
+	adddelay(2000);
+}
+int main () {
+      rccahb1enR =gpiodmask;
+      gpiodModr=gpiodP14mask;
+      gpiodModr |=gpiodP13mask;
+
+      //Name:yigitonat, kirmizi ledi 9 defa ac kapa
+      for(int i=1;i<=9;i++){
+		yigitonat();
+	}
+
+      //Surname:gokdemir, turuncu ledi 8 defa ac kapa
+      for(int i=1;i<=8;i++){
+    	  	gokdemir();
+        }
+
+	return 0;
+
+}
